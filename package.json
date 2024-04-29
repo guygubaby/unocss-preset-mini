@@ -45,7 +45,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepublishOnly": "nr build",
-    "release": "bumpp && npm publish",
+    "release": "bumpp && pnpm publish --access public",
     "start": "esno src/index.ts",
     "typecheck": "tsc --noEmit",
     "up": "taze major -r -w -I"
