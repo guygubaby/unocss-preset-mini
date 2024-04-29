@@ -1,0 +1,77 @@
+{
+  "name": "@bryce-loskie/unocss-preset-mini",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.0.6",
+  "description": "Bryce Loskie's Unocss preset",
+  "author": "@guygubaby",
+  "license": "MIT",
+  "homepage": "https://github.com/guygubaby/unocss-preset-mini#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guygubaby/unocss-preset-mini.git"
+  },
+  "bugs": "https://github.com/guygubaby/unocss-preset-mini/issues",
+  "keywords": [
+    "unocss",
+    "unocss-preset",
+    "unocss-preset-mini"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepublishOnly": "nr build",
+    "release": "bumpp && npm publish",
+    "start": "esno src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "up": "taze major -r -w -I"
+  },
+  "peerDependenciesMeta": {
+    "unocss": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@uni-helper/unocss-preset-uni": "^0.2.8"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.16.0",
+    "@antfu/ni": "^0.21.12",
+    "@types/node": "^20.12.7",
+    "@unocss/autocomplete": "^0.59.4",
+    "@unocss/core": "^0.59.4",
+    "bumpp": "^9.4.1",
+    "eslint": "^9.1.1",
+    "esno": "^4.7.0",
+    "pnpm": "^9.0.6",
+    "rimraf": "^5.0.5",
+    "taze": "^0.13.7",
+    "typescript": "^5.4.5",
+    "unbuild": "^2.0.0",
+    "unocss": "^0.59.4"
+  }
+}
