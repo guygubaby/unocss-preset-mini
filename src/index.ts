@@ -8,6 +8,8 @@ interface IOptions {
   iconCollection?: Record<string, Record<string, string>>
 }
 
+export const WHAutoComplete = '(wh|hw)-(full|screen)'
+
 export const transformerWh: SourceCodeTransformer = {
   name: 'wh-transformer',
   enforce: 'pre',
@@ -102,7 +104,7 @@ export function presetMini(options: IOptions = {}): Preset {
     name: 'uno-preset-mini',
     autocomplete: {
       templates: [
-        '(wh|hw)-(full|screen)',
+        WHAutoComplete,
       ],
     },
     presets: [
