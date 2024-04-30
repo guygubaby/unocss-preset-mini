@@ -126,6 +126,10 @@ export function presetMini(options: IOptions = {}): Preset {
       presetSafearea,
       presetIcon(options),
     ],
+    configResolved(config) {
+      config.transformers ||= []
+      config.transformers.push(transformerDirectives(), transformerVariantGroup())
+    },
     blocklist: [
       'tab',
       'block',
