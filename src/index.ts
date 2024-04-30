@@ -31,19 +31,6 @@ export const transformerWh: SourceCodeTransformer = {
   },
 }
 
-export const presetWH: Preset = {
-  name: 'uno-preset-wh',
-  autocomplete: {
-    templates: [
-      '(wh|hw)-(full|screen)',
-    ],
-  },
-  configResolved(config) {
-    config.transformers ||= []
-    config.transformers.push(transformerWh)
-  },
-}
-
 export const presetShortcuts: Preset = {
   name: 'uno-preset-shortcuts',
   shortcuts: [
@@ -113,6 +100,11 @@ export function presetIcon(options: IOptions = {}): Preset {
 export function presetMini(options: IOptions = {}): Preset {
   return {
     name: 'uno-preset-mini',
+    autocomplete: {
+      templates: [
+        '(wh|hw)-(full|screen)',
+      ],
+    },
     presets: [
       presetUni({
         uno: true,
@@ -121,14 +113,13 @@ export function presetMini(options: IOptions = {}): Preset {
           prefixedOnly: true,
         },
       }),
-      presetWH,
       presetShortcuts,
       presetSafearea,
       presetIcon(options),
     ],
     configResolved(config) {
       config.transformers ||= []
-      config.transformers.push(transformerDirectives(), transformerVariantGroup())
+      config.transformers.push(transformerDirectives(), transformerVariantGroup(), transformerWh)
     },
     blocklist: [
       'tab',
