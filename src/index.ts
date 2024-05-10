@@ -74,6 +74,30 @@ export const presetSafearea: Preset = {
   },
 }
 
+export const presetEllipsis: Preset = {
+  name: 'uno-preset-ellipsis',
+  autocomplete: {
+    templates: [
+      'ellipsis-(2|3|4|5|6|7|8|9|10)',
+    ],
+  },
+  rules: [
+    [/^ellipsis-(\d+)/, ([, lineCount], { rawSelector }) => {
+      const selector = e(rawSelector)
+      return `
+        ${selector} {
+          display: -webkit-box;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: ${lineCount};
+          line-break: anywhere;
+          -webkit-box-orient: vertical;
+        }
+      `
+    }],
+  ],
+}
+
 export function presetIcon(options: IOptions = {}): Preset {
   options.useIcon ||= true
   options.useCdnIcon ||= true
@@ -117,6 +141,7 @@ export function presetMini(options: IOptions = {}): Preset {
       }),
       presetShortcuts,
       presetSafearea,
+      presetEllipsis,
       presetIcon(options),
     ],
     configResolved(config) {
