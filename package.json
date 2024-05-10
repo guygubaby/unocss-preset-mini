@@ -1,7 +1,7 @@
 {
   "name": "@bryce-loskie/unocss-preset-mini",
   "type": "module",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "packageManager": "pnpm@9.1.0",
   "description": "Bryce Loskie's Unocss preset",
   "author": "@guygubaby",
