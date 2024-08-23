@@ -11,12 +11,12 @@ To get started with Unocss Preset Mini, follow these simple steps:
 pnpm i -D unocss
 ```
 
-### 2. Install Unocss Preset Ease
+### 2. Install Unocss Preset Mini
 ```bash
 pnpm i -D @bryce-loskie/unocss-preset-mini
 ```
 
-### 3. Configure Unocss to use the Ease preset.
+### 3. Configure Unocss to use the Mini preset.
 In your project's Unocss configuration file (usually named ),
 import the preset and add it to the section:`unocss.config.js`
 
@@ -32,6 +32,16 @@ export default defineConfig({
   ],
 })
 ```
+
+### 4. More rules
+
+1. `wh-xx / hw-xx` -> `w-xx h-xx`
+
+2. `fc` -> `flex justify-center items-center`
+
+3. `safe-area-top / safe-area-bottom`
+
+4. `ellipsis-[number]`
 
 ## License
 

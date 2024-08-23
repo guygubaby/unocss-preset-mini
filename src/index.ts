@@ -2,12 +2,6 @@ import type { Preset, SourceCodeTransformer } from 'unocss'
 import { presetUni } from '@uni-helper/unocss-preset-uni'
 import { toEscapedSelector as e, presetIcons as rawPresetIcons, transformerDirectives, transformerVariantGroup } from 'unocss'
 
-interface IOptions {
-  useIcon?: boolean
-  useCdnIcon?: boolean
-  iconCollection?: Record<string, Record<string, string>>
-}
-
 export const WHAutoComplete = '(wh|hw)-(full|screen)'
 
 export const transformerWh: SourceCodeTransformer = {
@@ -98,24 +92,33 @@ export const presetEllipsis: Preset = {
   ],
 }
 
+interface IOptions {
+  useIcon?: boolean
+  useCdnIcon?: boolean
+  iconCollection?: Record<string, Record<string, string>>
+  extraProperties?: Record<string, string>
+}
+
 export function presetIcon(options: IOptions = {}): Preset {
   options.useIcon ||= true
   options.useCdnIcon ||= true
   options.iconCollection ||= {}
+  options.extraProperties ||= {
+    'display': 'inline-block',
+    'vertical-align': 'middle',
+  }
   const iconCollection = options.iconCollection || {}
 
   const presets: Preset[] = []
   const icon = rawPresetIcons({
     scale: 1.2,
-    extraProperties: {
-      'display': 'inline-block',
-      'vertical-align': 'middle',
-    },
+    extraProperties: options.extraProperties,
     cdn: options.useCdnIcon ? 'https://esm.sh/' : undefined,
     collections: iconCollection,
   })
 
-  options.useIcon && presets.push(icon)
+  if (options.useIcon)
+    presets.push(icon)
 
   return {
     name: 'uno-preset-my-icon',
