@@ -68,6 +68,19 @@ export const presetSafearea: Preset = {
   },
 }
 
+export const presetBgImage: Preset = {
+  name: 'uno-preset-bg-image',
+  rules: [
+    [/^bg-image$/, ([, _]) => {
+      return {
+        'background-size': '100% 100%',
+        'background-repeat': 'no-repeat',
+        'background-position': 'center',
+      }
+    }],
+  ],
+}
+
 export const presetEllipsis: Preset = {
   name: 'uno-preset-ellipsis',
   autocomplete: {
