@@ -1,5 +1,4 @@
 import type { Preset, SourceCodeTransformer } from 'unocss'
-import { presetUni } from '@uni-helper/unocss-preset-uni'
 import { toEscapedSelector as e, presetIcons as rawPresetIcons, transformerDirectives, transformerVariantGroup } from 'unocss'
 
 export const WHAutoComplete = '(wh|hw)-(full|screen)'
@@ -139,7 +138,9 @@ export function presetIcon(options: IOptions = {}): Preset {
   }
 }
 
-export function presetMini(options: IOptions = {}): Preset {
+export async function presetMini(options: IOptions = {}): Promise<Preset> {
+  const { presetUni } = await import('@uni-helper/unocss-preset-uni')
+
   return {
     name: 'uno-preset-mini',
     autocomplete: {
