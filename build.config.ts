@@ -1,8 +1,8 @@
-import { defineBuildConfig } from "unbuild";
+import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
   entries: [
-    "src/index",
+    'src/index',
   ],
   declaration: true,
   clean: true,
@@ -10,7 +10,7 @@ export default defineBuildConfig({
     emitCJS: true,
   },
   externals: [
-    "unocss",
-    "@uni-helper/unocss-preset-uni",
+    'unocss',
+    '@uni-helper/unocss-preset-uni',
   ],
-});
+})
