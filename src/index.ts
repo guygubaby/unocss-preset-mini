@@ -139,7 +139,7 @@ export function presetIcon(options: IOptions = {}): Preset {
   }
 }
 
-export async function presetMini(options: IOptions = {}): Promise<Preset> {
+export function presetMini(options: IOptions = {}): Preset {
   return {
     name: 'uno-preset-mini',
     autocomplete: {
