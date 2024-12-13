@@ -158,6 +158,7 @@ export function presetMini(options: IOptions = {}): Preset {
       presetShortcuts,
       presetSafearea,
       presetEllipsis,
+      presetBgImage,
       presetIcon(options),
     ],
     configResolved(config) {
