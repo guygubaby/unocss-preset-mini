@@ -1,8 +1,8 @@
 import type { Preset } from 'unocss'
 import { presetUni } from '@uni-helper/unocss-preset-uni'
-import { toEscapedSelector as e, presetIcons as rawPresetIcons } from 'unocss'
+import { toEscapedSelector as e, presetWind3, presetIcons as rawPresetIcons } from 'unocss'
 
-export function presetWh(): Preset {
+function presetWh(): Preset {
   return {
     name: 'uno-preset-wh',
     autocomplete: {
@@ -49,7 +49,7 @@ export function presetWh(): Preset {
   }
 }
 
-export function presetShortcuts(): Preset {
+function presetShortcuts(): Preset {
   return {
     name: 'uno-preset-shortcuts',
     shortcuts: [
@@ -69,7 +69,7 @@ export function presetShortcuts(): Preset {
   }
 }
 
-export function presetSafearea(): Preset {
+function presetSafearea(): Preset {
   return {
     name: 'uno-preset-safearea',
     rules: [
@@ -95,7 +95,7 @@ export function presetSafearea(): Preset {
   }
 }
 
-export function presetBgImage(): Preset {
+function presetBgImage(): Preset {
   return {
     name: 'uno-preset-bg-image',
     rules: [
@@ -110,7 +110,7 @@ export function presetBgImage(): Preset {
   }
 }
 
-export function presetEllipsis(): Preset {
+function presetEllipsis(): Preset {
   return {
     name: 'uno-preset-ellipsis',
     autocomplete: {
@@ -136,14 +136,7 @@ export function presetEllipsis(): Preset {
   }
 }
 
-interface IOptions {
-  useIcon?: boolean
-  useCdnIcon?: boolean
-  iconCollection?: Record<string, Record<string, string>>
-  extraProperties?: Record<string, string>
-}
-
-export function presetIcon(options: IOptions = {}): Preset {
+function presetIcon(options: IOptions = {}): Preset {
   options.useIcon ||= true
   options.useCdnIcon ||= true
   options.iconCollection ||= {}
@@ -170,6 +163,35 @@ export function presetIcon(options: IOptions = {}): Preset {
   }
 }
 
+interface IOptions {
+  useIcon?: boolean
+  useCdnIcon?: boolean
+  iconCollection?: Record<string, Record<string, string>>
+  extraProperties?: Record<string, string>
+}
+
+/**
+ * preset for web
+ */
+export function presetWeb(options: IOptions = {}): Preset {
+  return {
+    name: 'uno-preset-web',
+    presets: [
+      // @ts-expect-error ignore
+      presetWind3(),
+      presetShortcuts(),
+      presetSafearea(),
+      presetEllipsis(),
+      presetBgImage(),
+      presetIcon(options),
+      presetWh(),
+    ],
+  }
+}
+
+/**
+ * preset for uni app
+ */
 export function presetMini(options: IOptions = {}): Preset {
   return {
     name: 'uno-preset-mini',
