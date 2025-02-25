@@ -43,10 +43,11 @@ function presetWh(): Preset {
         // name is $foo / $gap
         const isVariable = name.startsWith('$')
         if (isVariable) {
+          const val = name.slice(1)
           return `
             ${selector} {
-              width: var(--${name});
-              height: var(--${name});
+              width: var(--${val});
+              height: var(--${val});
             }
           `
         }
