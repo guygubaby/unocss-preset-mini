@@ -1,97 +1,127 @@
-import type { Preset, SourceCodeTransformer } from 'unocss'
+import type { Preset } from 'unocss'
 import { presetUni } from '@uni-helper/unocss-preset-uni'
-import { toEscapedSelector as e, presetIcons as rawPresetIcons, transformerDirectives, transformerVariantGroup } from 'unocss'
+import { toEscapedSelector as e, presetIcons as rawPresetIcons } from 'unocss'
 
-export const WHAutoComplete = '(wh|hw)-(full|screen)'
-
-export const transformerWh: SourceCodeTransformer = {
-  name: 'wh-transformer',
-  enforce: 'pre',
-  idFilter(id) {
-    return /\.[tj]sx?$/.test(id) || /\.vue$/.test(id)
-  },
-  // transform wh-xx to w-xx h-xx
-  async transform(code) {
-    const whReg = /(?:hw|wh)-([^\s'"]+)/g
-    const s = code.toString()
-    if (!whReg.test(s))
-      return
-
-    whReg.lastIndex = 0
-    const matched = s.matchAll(whReg)
-    for (const match of matched) {
-      const [full, value] = match
-      const transformed = `w-${value} h-${value}`
-      code.update(match.index, match.index + full.length, transformed)
-    }
-  },
-}
-
-export const presetShortcuts: Preset = {
-  name: 'uno-preset-shortcuts',
-  shortcuts: [
-    ['p-base', 'p-20px'],
-    ['fc', 'flex justify-center items-center'],
-
-    ['shadow-dim', 'shadow-[0px_2px_10px_0px_rgba(38,44,71,0.16)]'],
-    ['shadow-dim1', 'shadow-[0px_2px_4px_0px_rgba(0,14,26,0.06)]'],
-
-    ['text-sm', 'text-12px leading-18px'],
-    ['text-base', 'text-14px leading-22px'],
-    ['text-lg', 'text-16px leading-24px'],
-    ['text-xl', 'text-18px leading-26px'],
-    ['text-2xl', 'text-22px leading-34px'],
-  ],
-}
-
-export const presetSafearea: Preset = {
-  name: 'uno-preset-safearea',
-  rules: [
-    [
-      /^safe-area-(top|bottom)$/,
-      ([_, name], { rawSelector }) => {
+export function presetWh(): Preset {
+  return {
+    name: 'uno-preset-wh',
+    autocomplete: {
+      templates: [
+        '(wh|hw)-(full|screen)',
+      ],
+    },
+    rules: [
+      [/(?:hw|wh)-([^\s'"]+)$/, ([, name], { rawSelector }) => {
         const selector = e(rawSelector)
 
-        return `
-        ${selector} {
-          padding-${name}: constant(safe-area-inset-${name});
-          padding-${name}: env(safe-area-inset-${name});
+        const isFull = name === 'full'
+        if (isFull) {
+          return `
+            ${selector} {
+              width: 100%;
+              height: 100%;
+            }
+          `
         }
-      `
-      },
+
+        const isScreen = name === 'screen'
+        if (isScreen) {
+          return `
+            ${selector} {
+              width: 100vw;
+              height: 100vh;
+            }
+          `
+        }
+
+        const numerableVal = Number(name)
+        const isNumber = !Number.isNaN(numerableVal)
+        const val = isNumber ? `${numerableVal / 4}rem` : name
+
+        return `
+            ${selector} {
+              width: ${val};
+              height: ${val};
+            }
+          `
+      }],
     ],
-  ],
-  autocomplete: {
-    templates: [
-      '(safe-area)-(top|bottom)',
-    ],
-  },
+  }
 }
 
-export const presetBgImage: Preset = {
-  name: 'uno-preset-bg-image',
-  rules: [
-    [/^bg-image$/, ([, _]) => {
-      return {
-        'background-size': '100% 100%',
-        'background-repeat': 'no-repeat',
-        'background-position': 'center',
-      }
-    }],
-  ],
+export function presetShortcuts(): Preset {
+  return {
+    name: 'uno-preset-shortcuts',
+    shortcuts: [
+      ['p-base', 'p-20px'],
+      ['fc', 'flex justify-center items-center'],
+
+      ['shadow-dim', 'shadow-[0px_2px_10px_0px_rgba(38,44,71,0.16)]'],
+      ['shadow-dim1', 'shadow-[0px_2px_4px_0px_rgba(0,14,26,0.06)]'],
+
+      ['text-sm', 'text-12px leading-20px'],
+      ['text-base', 'text-14px leading-22px'],
+      ['text-lg', 'text-16px leading-24px'],
+      ['text-xl', 'text-18px leading-28px'],
+      ['text-2xl', 'text-22px leading-34px'],
+      ['text-3xl', 'text-26px leading-34px'],
+    ],
+  }
 }
 
-export const presetEllipsis: Preset = {
-  name: 'uno-preset-ellipsis',
-  autocomplete: {
-    templates: [
-      'ellipsis-(2|3|4|5|6|7|8|9|10)',
+export function presetSafearea(): Preset {
+  return {
+    name: 'uno-preset-safearea',
+    rules: [
+      [
+        /^safe-area-(top|bottom)$/,
+        ([_, name], { rawSelector }) => {
+          const selector = e(rawSelector)
+
+          return `
+            ${selector} {
+              padding-${name}: constant(safe-area-inset-${name});
+              padding-${name}: env(safe-area-inset-${name});
+            }
+          `
+        },
+      ],
     ],
-  },
-  rules: [
-    [/^ellipsis-(\d+)/, ([, lineCount], { rawSelector }) => {
-      const selector = e(rawSelector)
-      return `
+    autocomplete: {
+      templates: [
+        '(safe-area)-(top|bottom)',
+      ],
+    },
+  }
+}
+
+export function presetBgImage(): Preset {
+  return {
+    name: 'uno-preset-bg-image',
+    rules: [
+      [/^bg-image$/, ([, _]) => {
+        return {
+          'background-size': '100% 100%',
+          'background-repeat': 'no-repeat',
+          'background-position': 'center',
+        }
+      }],
+    ],
+  }
+}
+
+export function presetEllipsis(): Preset {
+  return {
+    name: 'uno-preset-ellipsis',
+    autocomplete: {
+      templates: [
+        'ellipsis-(2|3|4|5|6|7|8|9|10)',
+      ],
+    },
+    rules: [
+      [/^ellipsis-(\d+)/, ([, lineCount], { rawSelector }) => {
+        const selector = e(rawSelector)
+        return `
         ${selector} {
           display: -webkit-box;
           overflow: hidden;
@@ -101,8 +131,9 @@ export const presetEllipsis: Preset = {
           -webkit-box-orient: vertical;
         }
       `
-    }],
-  ],
+      }],
+    ],
+  }
 }
 
 interface IOptions {
@@ -142,11 +173,6 @@ export function presetIcon(options: IOptions = {}): Preset {
 export function presetMini(options: IOptions = {}): Preset {
   return {
     name: 'uno-preset-mini',
-    autocomplete: {
-      templates: [
-        WHAutoComplete,
-      ],
-    },
     presets: [
       presetUni({
         uno: true,
@@ -155,16 +181,13 @@ export function presetMini(options: IOptions = {}): Preset {
           prefixedOnly: true,
         },
       }),
-      presetShortcuts,
-      presetSafearea,
-      presetEllipsis,
-      presetBgImage,
+      presetShortcuts(),
+      presetSafearea(),
+      presetEllipsis(),
+      presetBgImage(),
       presetIcon(options),
+      presetWh(),
     ],
-    configResolved(config) {
-      config.transformers ||= []
-      config.transformers.push(transformerDirectives(), transformerVariantGroup(), transformerWh)
-    },
     blocklist: [
       'tab',
       'block',
