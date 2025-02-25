@@ -1,6 +1,12 @@
 import type { Preset } from 'unocss'
 import { presetUni } from '@uni-helper/unocss-preset-uni'
-import { toEscapedSelector as e, presetWind3, presetIcons as rawPresetIcons } from 'unocss'
+import {
+  toEscapedSelector as e,
+  presetWind3,
+  presetIcons as rawPresetIcons,
+  transformerDirectives,
+  transformerVariantGroup,
+} from 'unocss'
 
 function presetWh(): Preset {
   return {
@@ -185,6 +191,10 @@ export function presetWeb(options: IOptions = {}): Preset {
       presetBgImage(),
       presetIcon(options),
       presetWh(),
+    ],
+    transformers: [
+      transformerDirectives(),
+      transformerVariantGroup(),
     ],
   }
 }
