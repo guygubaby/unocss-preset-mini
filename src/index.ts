@@ -40,6 +40,29 @@ function presetWh(): Preset {
           `
         }
 
+        // name is $foo / $gap
+        const isVariable = name.startsWith('$')
+        if (isVariable) {
+          return `
+            ${selector} {
+              width: var(--${name});
+              height: var(--${name});
+            }
+          `
+        }
+
+        // name is [10px] / [2rem]
+        const isNumerable = name.startsWith('[') && name.endsWith(']')
+        if (isNumerable) {
+          const val = name.slice(1, -1)
+          return `
+            ${selector} {
+              width: ${val};
+              height: ${val};
+            }
+          `
+        }
+
         const numerableVal = Number(name)
         const isNumber = !Number.isNaN(numerableVal)
         const val = isNumber ? `${numerableVal / 4}rem` : name
