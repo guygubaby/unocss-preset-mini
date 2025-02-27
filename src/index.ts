@@ -79,23 +79,34 @@ function presetWh(): Preset {
   }
 }
 
-function presetShortcuts(): Preset {
+interface IOptions {
+  useShortcuts?: boolean
+  useIcon?: boolean
+  useCdnIcon?: boolean
+  iconCollection?: Record<string, Record<string, string>>
+  extraProperties?: Record<string, string>
+}
+
+function presetShortcuts(options: IOptions = {}): Preset {
+  options.useShortcuts ||= true
   return {
     name: 'uno-preset-shortcuts',
-    shortcuts: [
-      ['p-base', 'p-20px'],
-      ['fc', 'flex justify-center items-center'],
+    shortcuts: options.useShortcuts
+      ? [
+          ['p-base', 'p-20px'],
+          ['fc', 'flex justify-center items-center'],
 
-      ['shadow-dim', 'shadow-[0px_2px_10px_0px_rgba(38,44,71,0.16)]'],
-      ['shadow-dim1', 'shadow-[0px_2px_4px_0px_rgba(0,14,26,0.06)]'],
+          ['shadow-dim', 'shadow-[0px_2px_10px_0px_rgba(38,44,71,0.16)]'],
+          ['shadow-dim1', 'shadow-[0px_2px_4px_0px_rgba(0,14,26,0.06)]'],
 
-      ['text-sm', 'text-12px leading-20px'],
-      ['text-base', 'text-14px leading-22px'],
-      ['text-lg', 'text-16px leading-24px'],
-      ['text-xl', 'text-18px leading-28px'],
-      ['text-2xl', 'text-22px leading-34px'],
-      ['text-3xl', 'text-26px leading-34px'],
-    ],
+          ['text-sm', 'text-12px leading-20px'],
+          ['text-base', 'text-14px leading-22px'],
+          ['text-lg', 'text-16px leading-24px'],
+          ['text-xl', 'text-18px leading-28px'],
+          ['text-2xl', 'text-22px leading-34px'],
+          ['text-3xl', 'text-26px leading-34px'],
+        ]
+      : [],
   }
 }
 
@@ -193,13 +204,6 @@ function presetIcon(options: IOptions = {}): Preset {
   }
 }
 
-interface IOptions {
-  useIcon?: boolean
-  useCdnIcon?: boolean
-  iconCollection?: Record<string, Record<string, string>>
-  extraProperties?: Record<string, string>
-}
-
 /**
  * preset for web
  */
@@ -209,7 +213,7 @@ export function presetWeb(options: IOptions = {}): Preset {
     presets: [
       // @ts-expect-error ignore
       presetWind3(),
-      presetShortcuts(),
+      presetShortcuts(options),
       presetSafearea(),
       presetEllipsis(),
       presetBgImage(),
