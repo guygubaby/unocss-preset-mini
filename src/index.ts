@@ -88,7 +88,7 @@ interface IOptions {
 }
 
 function presetShortcuts(options: IOptions = {}): Preset {
-  options.useShortcuts ||= true
+  options.useShortcuts ??= true
   return {
     name: 'uno-preset-shortcuts',
     shortcuts: options.useShortcuts
@@ -178,10 +178,10 @@ function presetEllipsis(): Preset {
 }
 
 function presetIcon(options: IOptions = {}): Preset {
-  options.useIcon ||= true
-  options.useCdnIcon ||= true
-  options.iconCollection ||= {}
-  options.extraProperties ||= {
+  options.useIcon ??= true
+  options.useCdnIcon ??= true
+  options.iconCollection ??= {}
+  options.extraProperties ??= {
     'display': 'inline-block',
     'vertical-align': 'middle',
   }
